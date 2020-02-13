@@ -1,0 +1,1 @@
+javapackager -deploy -srcfiles target/QSD-4.2.one-jar.jar -name sdedit -native image -BjvmOptions=-Xdock:name=sdedit -Bicon=etc/sdedit.icns -BmainJar=QSD-4.2.one-jar.jar -BjvmProperties=user.dir=~/Documents -outdir target/javapackager -outfile sdedit -appclass com.simontuffs.onejar.Boot

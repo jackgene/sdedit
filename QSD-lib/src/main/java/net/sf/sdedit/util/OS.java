@@ -38,7 +38,7 @@ public final class OS {
 			TYPE = Type.UNKNOWN;
 		} else {
 			os_name = os_name.toLowerCase();
-			if (System.getProperty("mrj.version") != null) {
+			if (os_name.contains("mac")) {
 				TYPE = Type.MAC;
 			} else if (os_name.contains("windows")) {
 				TYPE = Type.WINDOWS;

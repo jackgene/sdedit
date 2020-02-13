@@ -24,6 +24,7 @@
 
 package net.sf.sdedit;
 
+import java.awt.*;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 
 import javax.swing.SwingUtilities;
 
@@ -47,6 +49,7 @@ import net.sf.sdedit.editor.plugin.PluginRegistry;
 import net.sf.sdedit.error.DiagramError;
 import net.sf.sdedit.server.Exporter;
 import net.sf.sdedit.ui.ImageGraphicsDevice;
+import net.sf.sdedit.ui.UserInterface;
 import net.sf.sdedit.ui.components.configuration.Adjustable;
 import net.sf.sdedit.ui.components.configuration.Bean;
 import net.sf.sdedit.util.DocUtil.XMLException;
@@ -167,6 +170,20 @@ public class Main implements Constants {
 						}
 					} else {
 						editor.getUI().addDefaultTab();
+					}
+					final UserInterface ui = editor.getUI();
+					if (OS.TYPE == OS.Type.MAC && ui instanceof Window) {
+						String className = "com.apple.eawt.FullScreenUtilities";
+						String methodName = "setWindowCanFullScreen";
+
+						try {
+							Class<?> clazz = Class.forName(className);
+							Method method = clazz.getMethod(methodName, Window.class, boolean.class);
+							method.invoke(null, ui, true);
+						} catch (Throwable t) {
+							System.err.println("Full screen mode is not supported");
+							t.printStackTrace();
+						}
 					}
 				}
 			});
